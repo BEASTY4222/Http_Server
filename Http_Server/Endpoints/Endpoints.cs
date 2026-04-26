@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Utilities;
 using Data;
+using System.Reflection.Metadata;
 
 namespace Endpoints
 {
@@ -48,6 +49,12 @@ namespace Endpoints
                 await db.SaveChangesAsync();
 
                 return Results.Ok("User created successfully!");
+            });
+
+            endpointApp.MapGet("/users/count", async (AppDbContext db) =>
+            {
+                // Get the count of users from the database
+                return await db.Users.CountAsync();
             });
         }
     }
