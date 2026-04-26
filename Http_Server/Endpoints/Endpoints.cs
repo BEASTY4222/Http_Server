@@ -1,0 +1,54 @@
+using Microsoft.EntityFrameworkCore;
+using Utilities;
+using Data;
+
+namespace Endpoints
+{
+    // Endpoint base class
+    // I think this is a good use since 
+    // all the endpoint will use smiliar code 
+    // to create the endpoints and this way we can avoid code duplication
+    // (a.k.a less code to maintain)
+    public class Endpoints
+    {
+        public Endpoints(WebApplication app)
+        {
+            endpointApp = app;
+        }
+
+        protected WebApplication endpointApp { get; set; }
+    }
+
+    // Default endpoint
+    public class DefaultEndPoint : Endpoints
+    {
+        public DefaultEndPoint(WebApplication app) : base(app)
+        {
+            endpointApp.MapGet("/", () => "Hello People! Welcome to my Http Server! \n" + 
+            "This is the default endpoint, you can change it if you want :) \n" +
+            "(/users)");
+        }
+    }
+
+    // User endpoint
+    public class UserEndpoint : Endpoints
+    {
+        public UserEndpoint(WebApplication app) : base(app)
+        {
+            endpointApp.MapGet("/users", async (AppDbContext db) =>
+            {
+                // Get all users from the database
+                return await db.Users.ToListAsync();
+            });
+
+            endpointApp.MapPost("/users", async (MyJsonUser newUser, AppDbContext db) =>
+            {
+                // Add the new user to the database
+                db.Users.Add(newUser);
+                await db.SaveChangesAsync();
+
+                return Results.Ok("User created successfully!");
+            });
+        }
+    }
+}
