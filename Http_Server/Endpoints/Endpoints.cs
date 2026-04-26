@@ -32,18 +32,31 @@ namespace Endpoints
     }
 
     // User endpoint
-    public class UserEndpoint : Endpoints
+    public class UserEndpoints : Endpoints
     {
-        public UserEndpoint(WebApplication app) : base(app)
+        public UserEndpoints(WebApplication app) : base(app)
         {
+            // Get all users from the database and show them in the endpoint
             endpointApp.MapGet("/users", async (AppDbContext db) =>
             {
                 // Get all users from the database
                 return await db.Users.ToListAsync();
             });
 
+            // Create a new user and add it to the database
             endpointApp.MapPost("/users", async (MyJsonUser newUser, AppDbContext db) =>
             {
+                try
+                {
+                    PasswordChecker.IsValidPassword(newUser.Password);
+                }
+                catch (ArgumentException ex)
+                {
+                    return Results.BadRequest(ex.Message);
+                }
+                
+
+
                 // Add the new user to the database
                 db.Users.Add(newUser);
                 await db.SaveChangesAsync();
@@ -51,6 +64,7 @@ namespace Endpoints
                 return Results.Ok("User created successfully!");
             });
 
+            // Get the count of users in the database
             endpointApp.MapGet("/users/count", async (AppDbContext db) =>
             {
                 // Get the count of users from the database

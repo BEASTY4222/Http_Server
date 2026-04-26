@@ -117,3 +117,4 @@
 /home/ivan/UbuntoSide/UbutoVsCodeProjects/Http_Server/Http_Server/bin/Debug/net10.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 /home/ivan/UbuntoSide/UbutoVsCodeProjects/Http_Server/Http_Server/obj/Debug/net10.0/Http_Server.csproj.AssemblyReference.cache
 /home/ivan/UbuntoSide/UbutoVsCodeProjects/Http_Server/Http_Server/obj/Debug/net10.0/Http_Ser.7F048073.Up2Date
+/home/ivan/UbuntoSide/UbutoVsCodeProjects/Http_Server/Http_Server/obj/Debug/net10.0/Http_Server.sourcelink.json
