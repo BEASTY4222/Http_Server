@@ -44,7 +44,7 @@ namespace Endpoints
             });
 
             // Create a new user and add it to the database
-            endpointApp.MapPost("/users", async (MyJsonUser newUser, AppDbContext db) =>
+            endpointApp.MapPost("/users/signup", async (MyJsonUser newUser, AppDbContext db) =>
             {
                 try
                 {
