@@ -27,11 +27,7 @@ namespace Endpoint
         {
             endpointApp.MapGet("/", () => "Hello People! Welcome to my Http Server! \n" + 
             "This is the default endpoint, you can change it if you want :) \n" +
-            "USER ENDPOINTS:" +
-            "  (/users/signup) - to create a new user \n" +
-            "  (/users/login) - to login with an existing user \n" +
-            "  (/users) - to get all users in the database \n" +
-            "  (/users/count) - to get the count of users in the database");
+            "(/users)");
         }
     }
 
