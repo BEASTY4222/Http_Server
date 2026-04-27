@@ -1,40 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 using Utilities;
 using Data;
-using System.Reflection.Metadata;
+using Microsoft.EntityFrameworkCore;
 
 namespace Endpoint
 {
-    // Endpoint base class
-    // I think this is a good use since 
-    // all the endpoint will use smiliar code 
-    // to create the endpoints and this way we can avoid code duplication
-    // (a.k.a less code to maintain)
-    public class Endpoint
-    {
-        public Endpoint(WebApplication app)
-        {
-            endpointApp = app;
-        }
-
-        protected WebApplication endpointApp { get; set; }
-    }
-
-    // Default endpoint
-    public class DefaultEndPoint : Endpoint
-    {
-        public DefaultEndPoint(WebApplication app) : base(app)
-        {
-            endpointApp.MapGet("/", () => "Hello People! Welcome to my Http Server! \n" + 
-            "This is the default endpoint, you can change it if you want :) \n" +
-            "USER ENDPOINTS: \n" +
-            "GET /users - Get all users from the database \n" +
-            "POST /users/signup - Create a new user and add it to the database \n" +
-            "POST /users/login - Login endpoint (definitely should not be like this FIX LATER) \n" +
-            "GET /users/count - Get the count of users in the database");
-        }
-    }
-
     // User endpoint
     public class UserEndpoints : Endpoint
     {
@@ -100,11 +69,14 @@ namespace Endpoint
                 return Results.Ok("Login successful! Welcome " + user.Name);
             });
 
-            endpointApp.MapGet("/user", async (AppDbContext db) =>
+            endpointApp.MapGet("/user", async (HttpContext context, AppDbContext db) =>
             {
                 var user = await db.Users.FindAsync(userCurrent.Id);
-                // Get all users from the database
-                return user;
+                // Get a specific user from the database
+                if (user == null)
+                    return Results.NotFound("User not found make sure you are logged in or just signed in");
+                else
+                    return Results.Ok(user);
             });
 
             // Get the count of users in the database

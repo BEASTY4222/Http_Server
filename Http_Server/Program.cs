@@ -12,11 +12,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 WebApplication app = builder.Build();
 
+EndpointDev endpointDev = new EndpointDev(app);
+
 MyJsonUserCurrent userCurrent = new MyJsonUserCurrent();
 
 DefaultEndPoint defaultEndpoint = new DefaultEndPoint(app);
 
 UserEndpoints userEndpoint = new UserEndpoints(app, userCurrent);
+
 
 
 
