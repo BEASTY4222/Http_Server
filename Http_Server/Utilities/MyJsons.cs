@@ -4,7 +4,7 @@ namespace Utilities
 {
     public class MyJsonUser
     {
-        public MyJsonUser( string name ,string email = "example@email.com", string password = "examplepassword", int age = 0)
+        public MyJsonUser(string name ,string email = "example@email.com", string password = "examplepassword", int age = 0)
             {
                 Name = name;
                 Email = email;
@@ -17,6 +17,16 @@ namespace Utilities
         public string Email { get; set; }
         public string Password { get; set; }
         public int Age { get; set; }
+    }
+
+    public class MyJsonUserLogIn
+    {
+        public MyJsonUserLogIn(string email)
+        {
+            Email = email;
+        }
+
+        public string Email { get; set; }
     }
 
      

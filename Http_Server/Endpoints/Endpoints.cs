@@ -3,16 +3,16 @@ using Utilities;
 using Data;
 using System.Reflection.Metadata;
 
-namespace Endpoints
+namespace Endpoint
 {
     // Endpoint base class
     // I think this is a good use since 
     // all the endpoint will use smiliar code 
     // to create the endpoints and this way we can avoid code duplication
     // (a.k.a less code to maintain)
-    public class Endpoints
+    public class Endpoint
     {
-        public Endpoints(WebApplication app)
+        public Endpoint(WebApplication app)
         {
             endpointApp = app;
         }
@@ -21,7 +21,7 @@ namespace Endpoints
     }
 
     // Default endpoint
-    public class DefaultEndPoint : Endpoints
+    public class DefaultEndPoint : Endpoint
     {
         public DefaultEndPoint(WebApplication app) : base(app)
         {
@@ -32,7 +32,7 @@ namespace Endpoints
     }
 
     // User endpoint
-    public class UserEndpoints : Endpoints
+    public class UserEndpoints : Endpoint
     {
         public UserEndpoints(WebApplication app) : base(app)
         {
@@ -46,6 +46,17 @@ namespace Endpoints
             // Create a new user and add it to the database
             endpointApp.MapPost("/users/signup", async (MyJsonUser newUser, AppDbContext db) =>
             {
+                // Check if the email is valid
+                try
+                {
+                    await EmailChecker.IsValidEmail(newUser.Email, db);                    
+                }
+                catch (ArgumentException ex)
+                {
+                    return Results.BadRequest(ex.Message);
+                }
+
+                // Check if the password is valid
                 try
                 {
                     PasswordChecker.IsValidPassword(newUser.Password);
@@ -62,6 +73,21 @@ namespace Endpoints
                 await db.SaveChangesAsync();
 
                 return Results.Ok("User created successfully!");
+            });
+
+            // Login endpoint PS it definitely should not be like this FIX LATER
+            endpointApp.MapPost("/users/login", async (MyJsonUserLogIn loginUser, AppDbContext db) =>
+            {
+                // Check if the user exists in the database
+                var user = await db.Users.FirstOrDefaultAsync(u => u.Email == loginUser.Email);
+
+                if (user == null)
+                {
+                    return Results.NotFound("User not found.");
+                }
+
+
+                return Results.Ok("Login successful! Welcome " + user.Name);
             });
 
             // Get the count of users in the database

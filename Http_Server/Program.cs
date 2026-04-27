@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using Utilities;
-using Endpoints;
+using Endpoint;
 using Data;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -14,7 +14,7 @@ WebApplication app = builder.Build();
 
 DefaultEndPoint defaultEndpoint = new DefaultEndPoint(app);
 
-UserEndpoint userEndpoint = new UserEndpoint(app);
+UserEndpoints userEndpoint = new UserEndpoints(app);
 
 
 
