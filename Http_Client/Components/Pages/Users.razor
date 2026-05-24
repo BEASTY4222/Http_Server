@@ -1,0 +1,32 @@
+@page "/users"
+@inject HttpClient Http
+
+<PageTitle>Users</PageTitle>
+
+<h1>Users</h1>
+
+@if (users == null)
+{
+    <p>Loading...</p>
+}else
+{
+    @foreach (var user in users)
+    {
+        <p>@user.Name</p>
+    }
+}
+
+@code {
+
+    List<User>? users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = await Http.GetFromJsonAsync<List<User>>("/users");
+    }
+
+    public class User
+    {
+        public string Name { get; set; }
+    }
+}

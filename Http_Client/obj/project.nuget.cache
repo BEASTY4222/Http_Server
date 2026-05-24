@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "fQqblxXET5Q=",
+  "success": true,
+  "projectFilePath": "/home/ivan/UbuntoSide/UbutoVsCodeProjects/Http_Server/Http_Client/Http_Client.csproj",
+  "expectedPackageFiles": [
+    "/home/ivan/.nuget/packages/microsoft.aspnetcore.app.internal.assets/10.0.7/microsoft.aspnetcore.app.internal.assets.10.0.7.nupkg.sha512"
+  ],
+  "logs": []
+}

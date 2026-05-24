@@ -1,0 +1,18 @@
+﻿@page "/"
+@inject HttpClient Http
+
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, visitors!</h1>
+
+
+<p>@message</p>
+@code{
+    public string? message;
+
+    protected override async Task OnInitializedAsync()
+    {
+        message = await Http.GetStringAsync("/");
+    }
+}

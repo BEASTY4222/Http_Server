@@ -5,10 +5,23 @@ using Endpoint;
 using Data;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Blazor",
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:7001")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
 // Database connection 
 var connectionString = "Host=localhost;Database=LocalDev;Username=postgres;Password=ivancho181";
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
+
 
 WebApplication app = builder.Build();
 
@@ -22,6 +35,6 @@ UserEndpoints userEndpoint = new UserEndpoints(app, userCurrent);
 
 
 
-
+app.UseCors("Blazor");
 
 app.Run();
